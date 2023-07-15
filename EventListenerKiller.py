@@ -12,7 +12,6 @@ from playwright.async_api import async_playwright
 async def killEventListener():
     async with async_playwright() as playwright:
         chromium = playwright.chromium # does not work for "firefox" or "webkit".
-        print("Do we get here")
         browser = await chromium.connect_over_cdp("http://localhost:9222")
         time.sleep(0.2)
         browser_contexts = browser.contexts[0]
@@ -25,10 +24,8 @@ async def killEventListener():
  
                 await page.bring_to_front()
                 #await page.wait_for_selector("selector",timeout=10000)
-                print("We go there")
             if title.__contains__("devtools"):
                 #Ensure you have devtools already open for the target tab in undocked (separate window) mode
-                print("Hello ma friend devtoolios")
                 await page.bring_to_front()
                 javascript = 'document.querySelector("#console-prompt > div > div.console-prompt-editor-container > devtools-text-editor").shadowRoot.querySelector("div > div.cm-scroller > div.cm-content.cm-lineWrapping > div").click()'
                 await page.evaluate(f"""() => {{{javascript}}}""")
